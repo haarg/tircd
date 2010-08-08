@@ -306,8 +306,16 @@ sub twitter_oauth_login_begin {
 
 	# load user config from disk for reusing tokens
 	if (-d $config{'storage_path'}) {
-		$heap->{'config'}   = eval {retrieve($config{'storage_path'} . '/' . $heap->{'username'} . '.config');};
-	} 
+		if (-f $config{'storage_path'} . '/' . lc($heap->{'username'}) . '.config') {
+			$heap->{'config'}   = eval {retrieve($config{'storage_path'} . '/' . lc($heap->{'username'}) . '.config');};
+		} else {
+			$heap->{'config'}   = eval {retrieve($config{'storage_path'} . '/' . $heap->{'username'} . '.config');};
+		}
+	}
+
+	if ($heap->{'config'}->{'username'}) {
+		$heap->{'username'} = $heap->{'config'}->{'username'};
+	}
 
 	# if tokens exist in users config, attempt to re-use
 	# TODO allow users to specify no store of access tokens
@@ -394,7 +402,11 @@ sub tircd_setup_authenticated_user {
 
 	#load our configs from disk if they exist
 	if (-d $config{'storage_path'}) {
-		$heap->{'channels'} = eval {retrieve($config{'storage_path'} . '/' . $heap->{'username'} . '.channels');};
+		if (-f $config{'storage_path'} . '/' . lc($heap->{'username'}) . '.channels') {
+			$heap->{'channels'} = eval {retrieve($config{'storage_path'} . '/' . lc($heap->{'username'}) . '.channels');};
+		} else {
+			$heap->{'channels'} = eval {retrieve($config{'storage_path'} . '/' . $heap->{'username'} . '.channels');};
+		}
 	} 
 
 	my @user_settings = qw(update_timeline update_directs timeline_count long_messages min_length join_silent filter_self shorten_urls convert_irc_replies access_token access_token_secret);
@@ -529,8 +541,8 @@ sub tircd_cleanup {
     foreach my $chan (keys %{$heap->{'channels'}}) {
         $heap->{'channels'}->{$chan}->{'joined'} = 0;
     }
-    eval {store($heap->{'config'},$config{'storage_path'} . '/' . $heap->{'username'} . '.config');};
-    eval {store($heap->{'channels'},$config{'storage_path'} . '/' . $heap->{'username'} . '.channels');};
+    eval {store($heap->{'config'},$config{'storage_path'} . '/' . lc($heap->{'username'}) . '.config');};
+    eval {store($heap->{'channels'},$config{'storage_path'} . '/' . lc($heap->{'username'}) . '.channels');};
   } else {
     $kernel->post('logger','log','storage_path is not set or is not writable, not saving configuration.',$heap->{'username'});  
   }
@@ -610,7 +622,7 @@ sub irc_nick {
     return;
   }
 
-  $heap->{'username'} = $data->{'params'}[0]; #stash the username for later
+  $heap->{'username'} = lc($data->{'params'}[0]); #stash the username for later
 
   if (!$heap->{'twitter'}) {
     $kernel->yield('login');
