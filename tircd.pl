@@ -1353,7 +1353,12 @@ sub twitter_timeline {
         foreach my $chan (keys %{$heap->{'channels'}}) {
           # - Send the message to the #twitter-channel if it is different from my latest update (IE different from current topic)
           if ($chan eq '#twitter' && exists $heap->{'channels'}->{$chan}->{'names'}->{$item->{'user'}->{'screen_name'}} && $item->{'text'} ne $heap->{'channels'}->{$chan}->{'topic'}) {
-            $kernel->yield('user_msg','PRIVMSG',$item->{'user'}->{'screen_name'},$chan,$item->{'text'});
+		  if(defined($item->{'retweeted_status'})) {
+			  $kernel->yield('user_msg','PRIVMSG',$item->{'user'}->{'screen_name'},$chan,'RT @' . $item->{'retweeted_status'}->{'user'}->{'screen_name'} . ': ' . $item->{'retweeted_status'}->{'text'});
+		  }
+		  else {
+			  $kernel->yield('user_msg','PRIVMSG',$item->{'user'}->{'screen_name'},$chan,$item->{'text'});
+		  }
           }
           # - Send the message to the other channels the user is in if the user is not "me"
           if ($chan ne '#twitter' && exists $heap->{'channels'}->{$chan}->{'names'}->{$item->{'user'}->{'screen_name'}} && $item->{'user'}->{'screen_name'} ne $heap->{'username'}) {
