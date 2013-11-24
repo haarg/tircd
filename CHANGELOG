@@ -1,3 +1,86 @@
+=== v. 2011-11-10-01 ==
+FEATURES
+* Added the tircd bot, offerbot style control, allows for retweeting and replying (which don't fit scope of IRC metaphor) plus most other api functions
+* Can now check length of text (useful for conforming to 140 char restriction)
+* Added max_splits to config to prohibit overly long messages from being considered for splitting and posting
+
+FIXES
+* Check whether config save successful, alert user.
+* Moved channel freezing code to shutdown, where belongs, instead of save
+* Abstracted message splitting, cleaned up alerting
+* Moved msg splitting into posting functions
+* Added more debugging msgs, more levels of debug
+* Added all relevant user control settings to config file, expanded documentation in config
+* Refactored tircdbot to use proccess table, easier to expand
+* Catch changes to update_timeline and update_direct_messages settings, kick off or kill timers as appropriate.
+* Allow for ~ (home alias) in storage_path setting
+* Allow for case insensitive kicking
+
+=== v. 2011-10-18-01 ==
+* Add timestamps to !conversations
+* Fix a bug where non-existing slot-di would crash tircd
+
+=== v. 2011-09-12-01 ==
+* Save timeline and DM-timestamps to avoid join replay (drags commit bb49602604eb46e8f5976d6d2949924e2d4d4253)
+
+=== v. 2011-09-08-01 ==
+* Fix conversation and related posts
+* Bugfixes
+* Lots of updates to docs end config example
+
+=== v. 2011-08-25-01 ==
+EXPERIMENTAL
+* Enable password protection of tircd accounts
+
+=== v. 2011-08-23-01 ==
+FEATURES
+* Make config-options to expand URLs and Real Names
+* Auto save User.config on change
+* Giving user at least a notice that RTs are posted successfully
+
+FIXES
+* Fix bug where you would join and part #twitter if you mention yourself in a tweet or sent a DM to yourself
+* Fix issues #87 - Links have "rel=nofollow" in them
+
+=== v. 2011-08-22-06 ==
+Fixing issues #81 - retweets cut off
+
+=== v. 2011-08-22-05 ==
+Moving save_config out of shutdown, and adding !save-command to save config
+Also allowing !-commands even if auto_post is set to 1
+Adding auto_post to config files
+
+=== v. 2011-08-22-04 ==
+Fixing problem with global $debug - actually making tircd.pl start again
+
+=== v. 2011-08-22-03 ==
+Add note about /quote stats pin <PIN>
+
+=== v. 2011-08-22-02 ==
+Fix for issue 42 - Wrong PING-reply
+
+=== v. 2011-08-22 ==
+Merge of a lot of floating patches. 
+Should fix the following issues:  
+#22   	Add @ in front of nicks present in the channel 
+#42 	No response to client PING 
+#50	&amp;, &quot; and other HTML entities are not decoded 
+#52	direct message with unicode characters kills tircd 
+#54 	exit on broken pipe 
+#58	Make it possible to send an actual reply with in_reply_to metadata 
+#62	(Not a but in tircd)
+#65	IRCd dies when attempting to connect. 
+#68	tircd search channels are reset when i send a tweet 
+#76  	Fix "filter_self" 
+#81	Retweets cut off 
+#82	Add some method for replying to specific tweets 
+#84	Auth fails 
+#85	tirc v0.11 dies unexpectly 
+#90	Unicode character in tweet is messed up 
+#92	Cannot read direct messages 
+#94	Patches to Drags
+
+
 === v.10 - 2010-02-22 ===
 
 FEATURES:
