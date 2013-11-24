@@ -34,14 +34,14 @@ L<List::Util>
 
 L<HTML::Entities>
 
-L<Digest::SHA1>
+L<Digest::SHA>
 
 
 If you're using a redhat or debian based system, attempt to use the distrobutions CPAN module packages, in yum or apt.
 
 To install all modules via CPAN:
 
-B<cpan -i POE POE::Filter::IRCD Net::Twitter::Lite JSON::Any Time::Local File::Glob IO::File LWP::UserAgent Storable URI List::Util HTML::Entities Digest::SHA1>
+B<cpan -i POE POE::Filter::IRCD Net::Twitter::Lite JSON::Any Time::Local File::Glob IO::File LWP::UserAgent Storable URI List::Util HTML::Entities Digest::SHA>
 
 =head1 USAGE
 
@@ -255,5 +255,5 @@ L<List::Util>
 
 L<HTML::Entities>
 
-L<Digest::SHA1>
+L<Digest::SHA>
 
