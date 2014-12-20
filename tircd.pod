@@ -138,9 +138,9 @@ B<!retweet a7f>
 
 =item Replying to a status
 
-To reply to a status update, use the offerbot command !retweet followed by the 3 letter tweet identifier.
+To reply to a status update, use the offerbot command !reply followed by the 3 letter tweet identifier.
 
-B<!retweet a7f>
+B<!reply a7f>
 
 =item Listing the users you follow
 
