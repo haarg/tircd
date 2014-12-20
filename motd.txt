@@ -1,11 +1,11 @@
 Welcome to tircd! Still beta, mind the bumps.
 
-/join #twitter to get started!  
+/join #twitter to get started!
 
 /stats to set configurable options.
 
-Please submit bug reports here: http://code.google.com/p/tircd/issues/list  
+Please submit bug reports here: https://github.com/nuxi/tircd
 
 Thanks for using tircd,
 
-@tircd on twitter.
+@nuxi on twitter.

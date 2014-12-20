@@ -23,11 +23,18 @@ use HTML::Entities;
 use Digest::SHA  qw(sha1_base64);
 
 
-my $VERSION = 2011082301;
+my $VERSION = 20141220;
 
 # consumer key/secret in the executable instead of config because it should not be edited by user
+# Only uncomment one copy of the keys! By default the original API keys are used
+
+# these keys belong to the original tircd app
 my $tw_oauth_con_key = "4AQca4GFiWWaifUknq35Q";
 my $tw_oauth_con_sec = "VB0exmHlErkx4GUUsXvoR4bqaXi56Rl43NL1Z9Q";
+
+# these keys are registered as tircd-nuxi just in case the above ever broke
+#my $tw_oauth_con_key = "Tw9E0lMl7CF0feka42B5SA";
+#my $tw_oauth_con_sec = "iHaFHHEXcxEvLCItHRiIbc0XC9eWl29fSOdOXJ39dvM";
 
 # I have no idea what the minimum Net::Twitter::Lite version is
 #Do some sanity checks on the environment and warn if not what we want
@@ -506,7 +513,7 @@ sub tircd_setup_authenticated_user {
 	$kernel->yield('server_reply','001',"Welcome to tircd $heap->{'username'}");
 	$kernel->yield('server_reply','002',"Your host is tircd running version $VERSION");
 	$kernel->yield('server_reply','003',"This server was created just for you!");
-	$kernel->yield('server_reply','004',"tircd $VERSION i int");
+	$kernel->yield('server_reply','004',"tircd $VERSION");
 
 	#show 'em the motd
 	$kernel->yield('MOTD');  
@@ -533,7 +540,7 @@ sub tircd_verify_ssl {
 	}
 
 	# check ssl cert using LWP
-	my $api_check = Net::Twitter::Lite::WithAPIv1_1->new;
+	my $api_check = Net::Twitter::Lite::WithAPIv1_1->new(('ssl' => 1 ));
 	my $sslcheck = LWP::UserAgent->new;
 	my $apiurl = URI->new($api_check->{'apiurl'});
 	# second level domain, aka domain.tld. if this is present in the certificate, we are happy
@@ -731,7 +738,7 @@ sub irc_motd {
   my $ua = LWP::UserAgent->new;
   $ua->timeout(5);
   $ua->env_proxy();
-  my $res = $ua->get('http://tircd.googlecode.com/svn/trunk/motd.txt');
+  my $res = $ua->get('http://vault24.org/cgit/~nuxi/tircd.git/plain/motd.txt');
   
   if (!$res->is_success) {
     $kernel->yield('server_reply',372,"- Unable to get the MOTD.");
