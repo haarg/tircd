@@ -1519,7 +1519,7 @@ sub channel_twitter {
   my @friends = ();
   my $cursor = -1;
   my $error;
-  while (my $f = eval { $heap->{'twitter'}->friends({'cursor' => $cursor})}) {
+  while (my $f = eval { $heap->{'twitter'}->friends({'cursor' => $cursor, 'count' => 200})}) {
     $cursor = $f->{'next_cursor'};
     foreach my $user ($f->{'users'}) {
       foreach my $u (@{$user}) {
@@ -1539,7 +1539,7 @@ sub channel_twitter {
   #get list of followers
   my @followers = ();
   $cursor = -1;
-  while (my $f = eval { $heap->{'twitter'}->followers({'cursor' => $cursor}) }) {
+  while (my $f = eval { $heap->{'twitter'}->followers({'cursor' => $cursor, 'count' => 200}) }) {
     $cursor = $f->{'next_cursor'};
     foreach my $user ($f->{'users'}) {
       foreach my $u (@{$user}) {
